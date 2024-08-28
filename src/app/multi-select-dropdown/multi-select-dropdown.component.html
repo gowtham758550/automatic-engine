@@ -1,0 +1,36 @@
+<div ngbDropdown class="d-inline-block">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    id="dropdownBasic1"
+    ngbDropdownToggle
+  >
+    <ng-container *ngFor="let item of clonedOptions">
+      @if (item.selected) {
+      <span class="chip">
+        {{ item.value }}
+
+        <button (click)="$event.stopPropagation(); removeSelection(item.id)">
+          x
+        </button>
+      </span>
+      }
+    </ng-container>
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <input type="text" (input)="search($event)" />
+    <div
+      *ngFor="let i of clonedOptions"
+      ngbDropdownItem
+      (click)="$event.stopPropagation()"
+    >
+      <input
+        type="checkbox"
+        [id]="i.id"
+        (change)="select($event, i.id)"
+        [checked]="i.selected"
+      />
+      <label [htmlFor]="i.id">{{ i.value }}</label>
+    </div>
+  </div>
+</div>
