@@ -3,11 +3,12 @@ import { Item } from '../app.model';
 import { NgbDropdownConfig, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MultiSelectDirective } from './multi-select.directive';
 
 @Component({
   selector: 'app-multi-select-dropdown',
   standalone: true,
-  imports: [CommonModule, NgbDropdownModule, FormsModule],
+  imports: [CommonModule, NgbDropdownModule, FormsModule, MultiSelectDirective],
   templateUrl: './multi-select-dropdown.component.html',
   providers: [
     {
@@ -22,28 +23,31 @@ export class MultiSelectDropdownComponent implements OnInit, OnChanges, ControlV
 
   @Input() options!: Item[];
 
+  random = Math.floor(Math.random() * 100);
   clonedOptions!: Item[];
+  selectedOptions: Item[] = [];
   value!: string[];
   private config = inject(NgbDropdownConfig);
-  private onChange: (value: string[]) => void = () => {};
-  private onTouched: () => void = () => {};
+  private onChange: (value: string[]) => void = () => { };
+  private onTouched: () => void = () => { };
 
   ngOnInit(): void {
-    // this.config.autoClose = false;
+    this.config.autoClose = false;
     this.clonedOptions = this.options;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    if (!changes['options']?.isFirstChange()) {
-      this.clonedOptions?.filter(i => this.value?.includes(i.id)).forEach(i => i.selected = true);
-    }
+    // if (changes['options']) {
+    // }
   }
 
   //#region ControlValueAccessor
   writeValue(obj: string[]): void {
-    this.value = obj;
+    this.value = obj || [];
+    this.selectedOptions = this.options.filter(option => this.value.includes(option.id));
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -62,11 +66,11 @@ export class MultiSelectDropdownComponent implements OnInit, OnChanges, ControlV
     this.clonedOptions = this.options.filter(item => item.value.toLowerCase().includes(target.value.toLowerCase()));
   }
 
-  select(event: Event, id: string) {
-    const target = event?.target as HTMLInputElement;
+  select(event: boolean, id: string) {
     const element = this.options.find(i => i.id === id);
     if (element) {
-      element.selected = target.checked;
+      if (event) this.selectedOptions.push(element);
+      else this.removeSelection(id);
       this.setSelectedValues();
     }
   }
@@ -74,13 +78,13 @@ export class MultiSelectDropdownComponent implements OnInit, OnChanges, ControlV
   removeSelection(id: string) {
     const element = this.options.find(i => i.id === id);
     if (element) {
-      element.selected = false;
+      this.selectedOptions = this.selectedOptions.filter(i => i.id !== id);
       this.setSelectedValues();
     }
   }
 
   setSelectedValues() {
-    this.value = this.options.filter(i => i.selected).map(i => i.id);
+    this.value = this.selectedOptions.map(i => i.id);
     this.onChange(this.value);
   }
   //#endregion Dropdown

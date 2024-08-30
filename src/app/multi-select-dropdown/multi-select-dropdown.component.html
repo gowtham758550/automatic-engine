@@ -5,8 +5,7 @@
     id="dropdownBasic1"
     ngbDropdownToggle
   >
-    <ng-container *ngFor="let item of clonedOptions">
-      @if (item.selected) {
+    <ng-container *ngFor="let item of selectedOptions">
       <span class="chip">
         {{ item.value }}
 
@@ -14,7 +13,6 @@
           x
         </button>
       </span>
-      }
     </ng-container>
   </button>
   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -25,12 +23,15 @@
       (click)="$event.stopPropagation()"
     >
       <input
+        #checkbox
+        appMultiSelect
+        [selectedValues]="value"
+        [selectedValue]="i.id"
         type="checkbox"
-        [id]="i.id"
-        (change)="select($event, i.id)"
-        [checked]="i.selected"
+        (click)="$event.stopPropagation()"
+        (change)="$event.stopPropagation(); select(checkbox.checked, i.id)"
       />
-      <label [htmlFor]="i.id">{{ i.value }}</label>
+      <label style="width: 100%">{{ i.value }}</label>
     </div>
   </div>
 </div>

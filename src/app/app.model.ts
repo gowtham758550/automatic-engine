@@ -2,7 +2,7 @@ import { FormArray, FormControl, FormGroup } from "@angular/forms";
 
 export interface Item {
   value: string;
-  selected: boolean;
+  // selected: boolean;
   id: string;
 }
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { Condition, Parameter, RuleForm, Select, Simple, SimpleForm } from './app.model';
+import { Condition, Item, Parameter, RuleForm, Select, Simple, SimpleForm } from './app.model';
 import { MultiSelectDropdownComponent } from './multi-select-dropdown/multi-select-dropdown.component';
 
 
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   formGroup!: FormGroup<SimpleForm>;
   parameterOptions!: Select<Parameter>[];
   conditionOptions!: Select<Condition>[];
-  ipAddressConditions: Select<Condition>[] =[
+  ipAddressConditions: Select<Condition>[] = [
     {
       value: Condition.Equal,
       label: 'Equal'
@@ -64,37 +64,31 @@ export class AppComponent implements OnInit {
       label: 'Not Equal'
     }
   ];
-  countryItems = [
+  countryItems: Item[] = [
     {
       value: 'India',
-      selected: false,
-      id: '1'
+      id: 'IN'
     },
     {
       value: 'USA',
-      selected: false,
-      id: '2'
+      id: 'US'
     },
     {
       value: 'UK',
-      selected: false,
       id: '3'
     }
   ];
-  readerGroupItems = [
+  readerGroupItems: Item[] = [
     {
       value: 'Group 1',
-      selected: false,
       id: '1'
     },
     {
       value: 'Group 2',
-      selected: false,
       id: '2'
     },
     {
       value: 'Group 3',
-      selected: false,
       id: '3'
     }
   ]
@@ -134,7 +128,7 @@ export class AppComponent implements OnInit {
     const formGroup = new FormGroup<RuleForm>({
       parameter: new FormControl(null) as FormControl<Parameter | null>,
       condition: new FormControl(null) as FormControl<Condition | null>,
-      value: new FormControl(this.countryItems.filter(x => x.selected).map(x => x.value)) as FormControl<string[]>,
+      value: new FormControl([]) as FormControl<string[]>,
       // dummy form control to bind date value to 👆`value`👆 field
       date: new FormControl(null) as FormControl<Date | null>
     });
@@ -170,18 +164,18 @@ export class AppComponent implements OnInit {
         },
         {
           parameter: Parameter.Date,
-          condition: Condition.Before,
+          condition: Condition.After,
           value: ['2021-07-01']
         },
         {
           parameter: Parameter.ReaderGroup,
-          condition: Condition.In,
+          condition: Condition.NotIn,
           value: ['1', '2']
         },
         {
           parameter: Parameter.Country,
           condition: Condition.Equal,
-          value: ['India']
+          value: ['IN', 'US']
         }
       ]
     };
