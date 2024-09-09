@@ -4,12 +4,14 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular
 import { RouterOutlet } from '@angular/router';
 import { Condition, Item, Parameter, RuleForm, Select, Simple, SimpleForm } from './app.model';
 import { MultiSelectDropdownComponent } from './multi-select-dropdown/multi-select-dropdown.component';
+import { SelectWithActionComponent } from './select-with-action/select-with-action.component';
+import { NexcentComponent } from './nexcent/nexcent.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, MultiSelectDropdownComponent],
+  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, MultiSelectDropdownComponent, SelectWithActionComponent, NexcentComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

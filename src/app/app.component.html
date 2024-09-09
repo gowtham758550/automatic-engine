@@ -1,9 +1,26 @@
+  <!-- <div class="parameter-item">Country
+    <div class="parameter-list">
+      <div class="parameter-item">Reader groups</div>
+      <div class="parameter-item">Device types</div>
+      <div class="parameter-item">Date</div>
+    </div>
+  </div>
+ -->
+
+<app-nexcent></app-nexcent>
+
+<app-select-with-action></app-select-with-action>
+
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <input type="text" formControlName="name" />
   <hr />
+
+  <button class="add" (click)="addParameter()">+</button>
+  <span class="line"></span>
   <div
     *ngFor="let item of formGroup.controls.list.controls; let i = index"
     [formGroup]="item"
+    class="m-3"
   >
     <select formControlName="parameter">
       @for (option of parameterOptions; track $index) {
@@ -54,7 +71,6 @@
     } @default { } }
     <button (click)="removeParameter(i)">x</button>
   </div>
-  <button (click)="addParameter()">+</button>
 
   {{ formGroup.value | json }}
 </div>

@@ -1,0 +1,24 @@
+<div ngbDropdown class="d-inline-block">
+  <button
+    type="button"
+    class="btn btn-outline-primary"
+    id="dropdownBasic1"
+    ngbDropdownToggle
+  >
+    @if (selectedItem) {
+    {{ selectedItem.value }}
+    } @else { Custom }
+  </button>
+  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+    <div *ngFor="let i of options" ngbDropdownItem>
+      <div class="d-flex justify-content-between">
+        <div>
+          {{ i.value }}
+        </div>
+        <div>
+          <button (click)="$event.stopPropagation(); confirmation()">x</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

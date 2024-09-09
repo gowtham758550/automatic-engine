@@ -1,1 +1,40 @@
+.parameter-list {
+  position: relative; /* Make it a reference point for absolute positioning */
+  padding-left: 20px; /* Space for the vertical lines */
+  margin: 0; /* Reset margin */
+  list-style: none; /* Remove bullet points */
 
+  .parameter-item {
+    position: relative; /* To position child pseudo-elements */
+    padding: 10px 0; /* Spacing between items */
+    margin-left: 20px; /* Indentation for child items */
+
+    // Vertical line connecting the current item to the next one
+    &::before {
+      content: '';
+      position: absolute;
+      left: -20px; /* Align with the left padding */
+      top: 0; /* Start at the top of the item */
+      bottom: 0; /* Stretch to the bottom of the item */
+      width: 1px; /* Line thickness */
+      background-color: #ccc; /* Line color */
+    }
+
+    // Horizontal line connecting the parent item to this one
+    &::after {
+      content: '';
+      position: absolute;
+      left: -20px; /* Start from the left */
+      top: 50%; /* Centered vertically */
+      width: 20px; /* Connects to the parent */
+      height: 1px; /* Line thickness */
+      background-color: #ccc; /* Line color */
+    }
+
+    // Check for child items to extend the vertical line
+    &:last-child::before {
+      bottom: 50%; /* Stop the vertical line at the middle of the last child */
+    }
+
+  }
+}
